@@ -53,6 +53,11 @@ define Package/bmx7
   MENU:=1
 endef
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(CP) $(PKG_BUILD_DIR)/src/* $(PKG_BUILD_DIR)/
+endef
+
 define Package/bmx7-uci-config
   $(call Package/bmx7/Default)
   DEPENDS:=bmx7 +libuci
@@ -87,6 +92,12 @@ define Package/bmx7-tun
   $(call Package/bmx7/Default)
   DEPENDS:=bmx7 +kmod-ip6-tunnel +kmod-iptunnel6 +kmod-tun
   TITLE:=ipip-based tunnel plugin (recommended!)
+endef
+
+define Package/bmx7-wg-tun
+  $(call Package/bmx7/Default)
+  DEPENDS:=bmx7
+  TITLE:=wireguard-based tunnel plugin
 endef
 
 define Package/bmx7-table
@@ -147,6 +158,11 @@ define Package/bmx7-tun/install
 		$(1)/usr/lib/bmx7_tun.so
 endef
 
+define Package/bmx7-wg-tun/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/bmx7_wg_tun/bmx7_wg_tun.so $(1)/usr/lib/bmx7_wg_tun.so
+endef
+
 define Package/bmx7-table/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(MAKE_PATH)/lib/bmx7_table/bmx7_table.so \
@@ -161,3 +177,4 @@ $(eval $(call BuildPackage,bmx7-json))
 $(eval $(call BuildPackage,bmx7-sms))
 $(eval $(call BuildPackage,bmx7-table))
 $(eval $(call BuildPackage,bmx7-tun))
+$(eval $(call BuildPackage,bmx7-wg-tun))

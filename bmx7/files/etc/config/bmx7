@@ -26,6 +26,9 @@ config 'dev' 'mesh_2'
 
 #config 'plugin'
 #        option 'plugin' 'bmx7_tun.so'
+#
+#config 'plugin'
+#        option 'plugin' 'bmx7_wg_tun.so'
 
 #config 'plugin'
 #        option 'plugin' 'bmx7_table.so'
