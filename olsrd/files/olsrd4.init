@@ -32,7 +32,7 @@ start_service() {
 	procd_append_param command -pidfile ${PID}
 
 	# restart if olsrd dies
-	procd_set_param respawn
+	procd_set_param respawn 3600 15 0
 
 	# automatically restart olsrd if generated cfg has changed
 	procd_set_param file $CONF
